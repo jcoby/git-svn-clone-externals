@@ -9,9 +9,9 @@ git svn propget svn:externals . | while read -a words
 do
   [ -z "${words[*]}" ] && continue
 
-  local_directory="${words[0]}"
+  local_directory="${words[1]}"
   revision=""
-  remote_url="${words[1]}"
+  remote_url="${words[0]}"
 
   if [ -n "${words[2]}" ]; then
     revision="${words[1]}"
@@ -22,8 +22,7 @@ do
 
   mkdir -p .git_externals
 
-  (cd .git_externals \
-   && git svn clone "$revision" "$remote_url" "$local_directory")
+  (cd .git_externals && git svn clone $revision "$remote_url" "$local_directory")
 
   ln -s .git_externals/"$local_directory" "$local_directory"
 
